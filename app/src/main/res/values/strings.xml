@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Colorist</string>
+    <string name="about_developed">Developed and powered by\nKaterina Bondar</string>
+    <string name="about_instagram">Instagram:</string>
+    <string name="link"><a href="https://www.instagram.com/twinklee_ee/">twinklee_ee</a></string>
+    <string name="reset">Reset</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+</resources>
