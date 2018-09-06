@@ -186,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
     private void startSettingsActivity() {
         Intent i = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(i);
+
     }
+
+
 }
 

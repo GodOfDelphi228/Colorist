@@ -6,4 +6,8 @@
     <string name="reset">Reset</string>
     <string name="about">About</string>
     <string name="settings">Settings</string>
+    <string name="difficulty_level">Select a difficulty level: </string>
+    <string name="easy">Easy</string>
+    <string name="average">Average</string>
+    <string name="difficult">Difficult</string>
 </resources>
