@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(APP_PREFERENCES_COUNTER, strCountTextView);
         editor.apply();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity"
-    android:background="#c9c9c9"
+    android:background="#000000"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/difficulty_level"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         android:text="@string/difficulty_level"
         android:textSize="25sp"
         android:textStyle="normal"
@@ -35,30 +35,33 @@
             android:layout_marginLeft="50dp"
             android:text="@string/easy"
             android:textSize="17sp"
-            android:textStyle="italic"
-            android:checked="true"/>
+            android:textColor="#a6a6a6"
+            android:buttonTint="#ffffff"
+            android:checked="true" />
 
         <RadioButton
             android:id="@+id/button_average"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="@string/average"
             android:textSize="17sp"
-            android:textStyle="italic"/>
+            android:textColor="#a6a6a6"
+            android:buttonTint="#ffffff"/>
 
         <RadioButton
             android:id="@+id/button_difficult"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="15dp"
             android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:text="@string/difficult"
             android:textSize="17sp"
-            android:textStyle="italic"/>
+            android:textColor="#a6a6a6"
+            android:buttonTint="#ffffff"/>
 
     </RadioGroup>
 
