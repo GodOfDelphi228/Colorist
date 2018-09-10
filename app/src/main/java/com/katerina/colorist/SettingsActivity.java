@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void saveSelectedIndex(int value) {
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         editor.putInt(SELECTED_INDEX, value);
-        editor.commit();
+        editor.apply();
     }
 
     @Override

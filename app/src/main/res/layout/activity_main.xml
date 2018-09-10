@@ -21,6 +21,68 @@
         android:id="@+id/count_textView"/>
 
     <LinearLayout
+        android:id="@+id/buttonPanel3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/buttonPanel2">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:text="true"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:id="@+id/left_button3"/>
+
+        <Button
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_background"
+            android:text="false"
+            android:layout_weight="1"
+            android:id="@+id/right_button3"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonPanel2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/buttonPanel">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:textSize="20sp"
+            android:text="true"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:id="@+id/left_button2"/>
+
+        <Button
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_background"
+            android:text="false"
+            android:layout_weight="1"
+            android:id="@+id/right_button2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/buttonPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

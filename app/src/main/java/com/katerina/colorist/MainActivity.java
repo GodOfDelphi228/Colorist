@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -27,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private Button rightButton;
     private TextView countTextView;
     private RelativeLayout myLayout;
+    private LinearLayout linearLayout;
+    private LinearLayout linearLayout2;
+    private LinearLayout linearLayout3;
+    private RadioGroup radioGroup;
     private int trueButton;
     private int counter;
     private int colorTrue;
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String RANDOM_BUTTON = "randomButton";
     private static final String APP_PREFERENCES = "mySettings";
     private static final String APP_PREFERENCES_COUNTER = "counter";
+    private static final String SELECTED_INDEX = "selectedIndex";
     private SharedPreferences settings;
 
     @Override
@@ -47,6 +53,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        linearLayout = findViewById(R.id.buttonPanel);
+        linearLayout2 = findViewById(R.id.buttonPanel2);
+        linearLayout3 = findViewById(R.id.buttonPanel3);
         myImageView = findViewById(R.id.imageView);
         leftButton = findViewById(R.id.left_button);
         rightButton = findViewById(R.id.right_button);
@@ -84,6 +93,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        switch (getSelectedValue()) {
+            case R.id.button_easy:
+                linearLayout.setVisibility(View.VISIBLE);
+                linearLayout2.setVisibility(View.GONE);
+                linearLayout3.setVisibility(View.GONE);
+                break;
+            case R.id.button_average:
+                linearLayout.setVisibility(View.VISIBLE);
+                linearLayout2.setVisibility(View.VISIBLE);
+                linearLayout3.setVisibility(View.GONE);
+                break;
+            case R.id.button_difficult:
+                linearLayout.setVisibility(View.VISIBLE);
+                linearLayout2.setVisibility(View.VISIBLE);
+                linearLayout3.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private int getSelectedValue() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getInt(SELECTED_INDEX, -1);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         String strCountTextView = String.valueOf(counter);
@@ -91,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         editor.putString(APP_PREFERENCES_COUNTER, strCountTextView);
         editor.apply();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
