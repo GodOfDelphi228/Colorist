@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,18 +23,24 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView myImageView;
-    private Button leftButton;
-    private Button rightButton;
+    private Button leftButton1;
+    private Button rightButton1;
+    private Button leftButton2;
+    private Button rightButton2;
+    private Button leftButton3;
+    private Button rightButton3;
     private TextView countTextView;
-    private RelativeLayout myLayout;
     private LinearLayout linearLayout;
     private LinearLayout linearLayout2;
     private LinearLayout linearLayout3;
-    private RadioGroup radioGroup;
     private int trueButton;
     private int counter;
     private int colorTrue;
     private int colorFalse;
+    private int colorFalse2;
+    private int colorFalse3;
+    private int colorFalse4;
+    private int colorFalse5;
     private int randomButton;
     private boolean ifSaved;
     private static final String KEY_INDEX = "index";
@@ -53,38 +58,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        linearLayout = findViewById(R.id.buttonPanel);
-        linearLayout2 = findViewById(R.id.buttonPanel2);
-        linearLayout3 = findViewById(R.id.buttonPanel3);
-        myImageView = findViewById(R.id.imageView);
-        leftButton = findViewById(R.id.left_button);
-        rightButton = findViewById(R.id.right_button);
-        countTextView = findViewById(R.id.count_textView);
-        myLayout = findViewById(R.id.linearLayout);
-        if (savedInstanceState != null) {
-            ifSaved = true;
-            counter = savedInstanceState.getInt(KEY_INDEX, 0);
-            colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
-            colorFalse = savedInstanceState.getInt(COLOR_FALSE, 0);
-            randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
-            changeColor(colorTrue);
-            setColors(colorTrue, colorFalse);
-        } else {
-            ifSaved = false;
-            initializeColor();
-        }
-        leftButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newState(0);
-            }
-        });
-        rightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newState(1);
-            }
-        });
+        findViewById();
+        initializeColor();
+        checkingInstanceStatus(savedInstanceState);
+        clickedButton();
         countTextView.setText(String.valueOf(counter));
         if (settings.contains(APP_PREFERENCES_COUNTER)) {
             countTextView.setText(settings.getString(APP_PREFERENCES_COUNTER, "0"));
@@ -154,35 +131,170 @@ public class MainActivity extends AppCompatActivity {
     public void  onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState");
-        savedInstanceState.putInt(KEY_INDEX, counter);
-        savedInstanceState.putInt(COLOR_TRUE, colorTrue);
-        savedInstanceState.putInt(COLOR_FALSE, colorFalse);
-        savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
+        switch (getSelectedValue()) {
+            case R.id.button_easy:
+                savedInstanceState.putInt(KEY_INDEX, counter);
+                savedInstanceState.putInt(COLOR_TRUE, colorTrue);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse);
+                savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
+                break;
+            case R.id.button_average:
+                savedInstanceState.putInt(KEY_INDEX, counter);
+                savedInstanceState.putInt(COLOR_TRUE, colorTrue);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse2);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse3);
+                savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
+                break;
+            case R.id.button_difficult:
+                savedInstanceState.putInt(KEY_INDEX, counter);
+                savedInstanceState.putInt(COLOR_TRUE, colorTrue);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse2);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse3);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse4);
+                savedInstanceState.putInt(COLOR_FALSE, colorFalse5);
+                savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
+                break;
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         onSaveInstanceState(new Bundle());
+        initializeColor();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initializeColor();
     }
 
     private int getRandomButton() {
         Random myRandom = new Random();
-        return myRandom.nextInt(2);
+        switch (getSelectedValue()) {
+            case R.id.button_easy:
+                return myRandom.nextInt(2);
+            case R.id.button_average:
+                return myRandom.nextInt(4);
+            case R.id.button_difficult:
+                return myRandom.nextInt(6);
+            default: return 6;
+        }
     }
 
-    private void setColors(int colorTrue, int colorFalse) {
+    private void setColors(int colorTrue, int colorFalse, int colorFalse2, int colorFalse3, int
+                           colorFalse4, int colorFalse5) {
         if (!ifSaved) {
             randomButton = getRandomButton();
         }
-        if (randomButton == 1) {
-            trueButton = 0;
-            leftButton.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
-            rightButton.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
-        } else {
-            trueButton = 1;
-            leftButton.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
-            rightButton.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+        switch (getSelectedValue()) {
+            case R.id.button_easy:
+                switch (randomButton) {
+                    case 0:
+                        trueButton = 0;
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        break;
+                    case 1:
+                        trueButton = 1;
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        break;
+                }
+                break;
+            case R.id.button_average:
+                switch (randomButton) {
+                    case 0:
+                        trueButton = 0;
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        break;
+                    case 1:
+                        trueButton = 1;
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        break;
+                    case 2:
+                        trueButton = 2;
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        break;
+                    case 3:
+                        trueButton = 3;
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        break;
+                }
+                break;
+            case R.id.button_difficult:
+                switch (randomButton) {
+                    case 0:
+                        trueButton = 0;
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        leftButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse4));
+                        rightButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse5));
+                        break;
+                    case 1:
+                        trueButton = 1;
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        leftButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse4));
+                        rightButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse5));
+                        break;
+                    case 2:
+                        trueButton = 2;
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        leftButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse4));
+                        rightButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse5));
+                        break;
+                    case 3:
+                        trueButton = 3;
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        leftButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse4));
+                        rightButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse5));
+                        break;
+                    case 4:
+                        trueButton = 4;
+                        leftButton3.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse4));
+                        rightButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse5));
+                        break;
+                    case 5:
+                        trueButton = 5;
+                        rightButton3.setText(String.format("#%06X", 0xFFFFFF & colorTrue));
+                        rightButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse));
+                        leftButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse2));
+                        rightButton2.setText(String.format("#%06X", 0xFFFFFF & colorFalse3));
+                        leftButton3.setText(String.format("#%06X", 0xFFFFFF & colorFalse4));
+                        leftButton1.setText(String.format("#%06X", 0xFFFFFF & colorFalse5));
+                        break;
+                }
+                break;
         }
     }
 
@@ -197,10 +309,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeColor() {
-        colorTrue = getRandomColor();
-        colorFalse = getRandomColor();
+        switch (getSelectedValue()) {
+            case R.id.button_easy:
+                colorTrue = getRandomColor();
+                colorFalse = getRandomColor();
+                break;
+            case R.id.button_average:
+                colorTrue = getRandomColor();
+                colorFalse = getRandomColor();
+                colorFalse2 = getRandomColor();
+                colorFalse3 = getRandomColor();
+                break;
+            case R.id.button_difficult:
+                colorTrue = getRandomColor();
+                colorFalse = getRandomColor();
+                colorFalse2 = getRandomColor();
+                colorFalse3 = getRandomColor();
+                colorFalse4 = getRandomColor();
+                colorFalse5 = getRandomColor();
+                break;
+        }
         changeColor(colorTrue);
-        setColors(colorTrue, colorFalse);
+        setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
     }
 
     private boolean checkColor(int clickedButton) {
@@ -225,9 +355,78 @@ public class MainActivity extends AppCompatActivity {
     private void startSettingsActivity() {
         Intent i = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(i);
-
     }
 
+    private void checkingInstanceStatus(Bundle savedInstanceState) {
+        if (savedInstanceState != null)  {
+            ifSaved = true;
+            counter = savedInstanceState.getInt(KEY_INDEX, 0);
+            randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
+            changeColor(colorTrue);
+            setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
+            colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
+            colorFalse = savedInstanceState.getInt(COLOR_FALSE, 0);
+            colorFalse2 = savedInstanceState.getInt(COLOR_FALSE, 0);
+            colorFalse3 = savedInstanceState.getInt(COLOR_FALSE, 0);
+            colorFalse4 = savedInstanceState.getInt(COLOR_FALSE, 0);
+            colorFalse5 = savedInstanceState.getInt(COLOR_FALSE, 0);
+        } else {
+            ifSaved = false;
+            initializeColor();
+        }
+    }
 
+    private void clickedButton() {
+        leftButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newState(0);
+            }
+        });
+        rightButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newState(1);
+            }
+        });
+        leftButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newState(2);
+            }
+        });
+        rightButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newState(3);
+            }
+        });
+        leftButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newState(4);
+            }
+        });
+        rightButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newState(5);
+            }
+        });
+    }
+
+    private void findViewById() {
+        linearLayout = findViewById(R.id.buttonPanel);
+        linearLayout2 = findViewById(R.id.buttonPanel2);
+        linearLayout3 = findViewById(R.id.buttonPanel3);
+        myImageView = findViewById(R.id.imageView);
+        leftButton1 = findViewById(R.id.left_button);
+        rightButton1 = findViewById(R.id.right_button);
+        leftButton2 = findViewById(R.id.left_button2);
+        rightButton2 = findViewById(R.id.right_button2);
+        leftButton3 = findViewById(R.id.left_button3);
+        rightButton3 = findViewById(R.id.right_button3);
+        countTextView = findViewById(R.id.count_textView);
+    }
 }
 
