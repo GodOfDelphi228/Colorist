@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -44,9 +43,12 @@ public class MainActivity extends AppCompatActivity {
     private int randomButton;
     private boolean ifSaved;
     private static final String KEY_INDEX = "index";
-    private static final String TAG = "MainActivity";
     private static final String COLOR_TRUE = "colorTrue";
     private static final String COLOR_FALSE = "colorFalse";
+    private static final String COLOR_FALSE2 = "colorFalse2";
+    private static final String COLOR_FALSE3 = "colorFalse3";
+    private static final String COLOR_FALSE4 = "colorFalse4";
+    private static final String COLOR_FALSE5 = "colorFalse5";
     private static final String RANDOM_BUTTON = "randomButton";
     private static final String APP_PREFERENCES = "mySettings";
     private static final String APP_PREFERENCES_COUNTER = "counter";
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        findViewById();
+        initializeView();
         initializeColor();
         checkingInstanceStatus(savedInstanceState);
         clickedButton();
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 linearLayout3.setVisibility(View.VISIBLE);
                 break;
         }
+
     }
 
     private int getSelectedValue() {
@@ -130,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void  onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        Log.i(TAG, "onSaveInstanceState");
         switch (getSelectedValue()) {
             case R.id.button_easy:
                 savedInstanceState.putInt(KEY_INDEX, counter);
@@ -142,18 +144,18 @@ public class MainActivity extends AppCompatActivity {
                 savedInstanceState.putInt(KEY_INDEX, counter);
                 savedInstanceState.putInt(COLOR_TRUE, colorTrue);
                 savedInstanceState.putInt(COLOR_FALSE, colorFalse);
-                savedInstanceState.putInt(COLOR_FALSE, colorFalse2);
-                savedInstanceState.putInt(COLOR_FALSE, colorFalse3);
+                savedInstanceState.putInt(COLOR_FALSE2, colorFalse2);
+                savedInstanceState.putInt(COLOR_FALSE3, colorFalse3);
                 savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
                 break;
             case R.id.button_difficult:
                 savedInstanceState.putInt(KEY_INDEX, counter);
                 savedInstanceState.putInt(COLOR_TRUE, colorTrue);
                 savedInstanceState.putInt(COLOR_FALSE, colorFalse);
-                savedInstanceState.putInt(COLOR_FALSE, colorFalse2);
-                savedInstanceState.putInt(COLOR_FALSE, colorFalse3);
-                savedInstanceState.putInt(COLOR_FALSE, colorFalse4);
-                savedInstanceState.putInt(COLOR_FALSE, colorFalse5);
+                savedInstanceState.putInt(COLOR_FALSE2, colorFalse2);
+                savedInstanceState.putInt(COLOR_FALSE3, colorFalse3);
+                savedInstanceState.putInt(COLOR_FALSE4, colorFalse4);
+                savedInstanceState.putInt(COLOR_FALSE5, colorFalse5);
                 savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
                 break;
         }
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        onRestoreInstanceState(new Bundle());
         initializeColor();
     }
 
@@ -313,12 +316,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.button_easy:
                 colorTrue = getRandomColor();
                 colorFalse = getRandomColor();
+                changeColor(colorTrue);
                 break;
             case R.id.button_average:
                 colorTrue = getRandomColor();
                 colorFalse = getRandomColor();
                 colorFalse2 = getRandomColor();
                 colorFalse3 = getRandomColor();
+                changeColor(colorTrue);
                 break;
             case R.id.button_difficult:
                 colorTrue = getRandomColor();
@@ -327,9 +332,9 @@ public class MainActivity extends AppCompatActivity {
                 colorFalse3 = getRandomColor();
                 colorFalse4 = getRandomColor();
                 colorFalse5 = getRandomColor();
+                changeColor(colorTrue);
                 break;
         }
-        changeColor(colorTrue);
         setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
     }
 
@@ -360,16 +365,38 @@ public class MainActivity extends AppCompatActivity {
     private void checkingInstanceStatus(Bundle savedInstanceState) {
         if (savedInstanceState != null)  {
             ifSaved = true;
-            counter = savedInstanceState.getInt(KEY_INDEX, 0);
-            randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
-            changeColor(colorTrue);
-            setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
-            colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
-            colorFalse = savedInstanceState.getInt(COLOR_FALSE, 0);
-            colorFalse2 = savedInstanceState.getInt(COLOR_FALSE, 0);
-            colorFalse3 = savedInstanceState.getInt(COLOR_FALSE, 0);
-            colorFalse4 = savedInstanceState.getInt(COLOR_FALSE, 0);
-            colorFalse5 = savedInstanceState.getInt(COLOR_FALSE, 0);
+            switch (getSelectedValue()) {
+                case R.id.button_easy:
+                    counter = savedInstanceState.getInt(KEY_INDEX, 0);
+                    randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
+                    colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
+                    colorFalse = savedInstanceState.getInt(COLOR_FALSE, 0);
+                    changeColor(colorTrue);
+                    setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
+                    break;
+                case R.id.button_average:
+                    counter = savedInstanceState.getInt(KEY_INDEX, 0);
+                    randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
+                    colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
+                    colorFalse = savedInstanceState.getInt(COLOR_FALSE, 0);
+                    colorFalse2 = savedInstanceState.getInt(COLOR_FALSE2, 0);
+                    colorFalse3 = savedInstanceState.getInt(COLOR_FALSE3, 0);
+                    changeColor(colorTrue);
+                    setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
+                    break;
+                case R.id.button_difficult:
+                    counter = savedInstanceState.getInt(KEY_INDEX, 0);
+                    randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
+                    colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
+                    colorFalse = savedInstanceState.getInt(COLOR_FALSE, 0);
+                    colorFalse2 = savedInstanceState.getInt(COLOR_FALSE2, 0);
+                    colorFalse3 = savedInstanceState.getInt(COLOR_FALSE3, 0);
+                    colorFalse4 = savedInstanceState.getInt(COLOR_FALSE4, 0);
+                    colorFalse5 = savedInstanceState.getInt(COLOR_FALSE5, 0);
+                    changeColor(colorTrue);
+                    setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
+                    break;
+            }
         } else {
             ifSaved = false;
             initializeColor();
@@ -415,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void findViewById() {
+    private void initializeView() {
         linearLayout = findViewById(R.id.buttonPanel);
         linearLayout2 = findViewById(R.id.buttonPanel2);
         linearLayout3 = findViewById(R.id.buttonPanel3);
