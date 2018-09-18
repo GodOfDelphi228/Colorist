@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private int colorFalse4;
     private int colorFalse5;
     private int randomButton;
+    public static final int EASY = 0;
+    public static final int AVERAGE = 1;
+    public static final int DIFFICULT = 2;
     private boolean ifSaved;
     private static final String KEY_INDEX = "index";
     private static final String COLOR_TRUE = "colorTrue";
@@ -58,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         settings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        setContentView(R.layout.activity_main);
         initializeView();
         initializeColor();
         checkingInstanceStatus(savedInstanceState);
@@ -75,17 +78,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         switch (getSelectedValue()) {
-            case R.id.button_easy:
+            case EASY:
                 linearLayout.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.GONE);
                 linearLayout3.setVisibility(View.GONE);
                 break;
-            case R.id.button_average:
+            case AVERAGE:
                 linearLayout.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.GONE);
                 break;
-            case R.id.button_difficult:
+            case DIFFICULT:
                 linearLayout.setVisibility(View.VISIBLE);
                 linearLayout2.setVisibility(View.VISIBLE);
                 linearLayout3.setVisibility(View.VISIBLE);
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int getSelectedValue() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getInt(SELECTED_INDEX, -1);
+        return preferences.getInt(SELECTED_INDEX, 0);
     }
 
     @Override
@@ -134,13 +137,13 @@ public class MainActivity extends AppCompatActivity {
     public void  onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         switch (getSelectedValue()) {
-            case R.id.button_easy:
+            case EASY:
                 savedInstanceState.putInt(KEY_INDEX, counter);
                 savedInstanceState.putInt(COLOR_TRUE, colorTrue);
                 savedInstanceState.putInt(COLOR_FALSE, colorFalse);
                 savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
                 break;
-            case R.id.button_average:
+            case AVERAGE:
                 savedInstanceState.putInt(KEY_INDEX, counter);
                 savedInstanceState.putInt(COLOR_TRUE, colorTrue);
                 savedInstanceState.putInt(COLOR_FALSE, colorFalse);
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 savedInstanceState.putInt(COLOR_FALSE3, colorFalse3);
                 savedInstanceState.putInt(RANDOM_BUTTON, randomButton);
                 break;
-            case R.id.button_difficult:
+            case DIFFICULT:
                 savedInstanceState.putInt(KEY_INDEX, counter);
                 savedInstanceState.putInt(COLOR_TRUE, colorTrue);
                 savedInstanceState.putInt(COLOR_FALSE, colorFalse);
@@ -178,11 +181,11 @@ public class MainActivity extends AppCompatActivity {
     private int getRandomButton() {
         Random myRandom = new Random();
         switch (getSelectedValue()) {
-            case R.id.button_easy:
+            case EASY:
                 return myRandom.nextInt(2);
-            case R.id.button_average:
+            case AVERAGE:
                 return myRandom.nextInt(4);
-            case R.id.button_difficult:
+            case DIFFICULT:
                 return myRandom.nextInt(6);
             default: return 6;
         }
@@ -194,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
             randomButton = getRandomButton();
         }
         switch (getSelectedValue()) {
-            case R.id.button_easy:
+            case EASY:
                 switch (randomButton) {
                     case 0:
                         trueButton = 0;
@@ -208,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 break;
-            case R.id.button_average:
+            case AVERAGE:
                 switch (randomButton) {
                     case 0:
                         trueButton = 0;
@@ -240,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 break;
-            case R.id.button_difficult:
+            case DIFFICULT:
                 switch (randomButton) {
                     case 0:
                         trueButton = 0;
@@ -313,19 +316,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeColor() {
         switch (getSelectedValue()) {
-            case R.id.button_easy:
+            case EASY:
                 colorTrue = getRandomColor();
                 colorFalse = getRandomColor();
                 changeColor(colorTrue);
                 break;
-            case R.id.button_average:
+            case AVERAGE:
                 colorTrue = getRandomColor();
                 colorFalse = getRandomColor();
                 colorFalse2 = getRandomColor();
                 colorFalse3 = getRandomColor();
                 changeColor(colorTrue);
                 break;
-            case R.id.button_difficult:
+            case DIFFICULT:
                 colorTrue = getRandomColor();
                 colorFalse = getRandomColor();
                 colorFalse2 = getRandomColor();
@@ -366,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null)  {
             ifSaved = true;
             switch (getSelectedValue()) {
-                case R.id.button_easy:
+                case EASY:
                     counter = savedInstanceState.getInt(KEY_INDEX, 0);
                     randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
                     colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
@@ -374,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
                     changeColor(colorTrue);
                     setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
                     break;
-                case R.id.button_average:
+                case AVERAGE:
                     counter = savedInstanceState.getInt(KEY_INDEX, 0);
                     randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
                     colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
@@ -384,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                     changeColor(colorTrue);
                     setColors(colorTrue, colorFalse, colorFalse2, colorFalse3, colorFalse4, colorFalse5);
                     break;
-                case R.id.button_difficult:
+                case DIFFICULT:
                     counter = savedInstanceState.getInt(KEY_INDEX, 0);
                     randomButton = savedInstanceState.getInt(RANDOM_BUTTON, 0);
                     colorTrue = savedInstanceState.getInt(COLOR_TRUE, 0);
